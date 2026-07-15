@@ -1,4 +1,5 @@
 # Vansh Poonacha — Racing-Themed Portfolio
+#live libk: https://vanshpoonacha21.github.io/Portfolio-website/
 
 A responsive, mobile-friendly personal portfolio with a **motorsport dashboard aesthetic**
 (racing red, carbon black, amber warning accents, F1-style condensed type) — built with
@@ -27,15 +28,6 @@ portfolio/
 ├── script.js    # Lights intro, gauges, navbar behavior
 └── README.md
 ```
-
-## ✏️ Still To Do Before You Deploy
-Name, education, theme, and project descriptions are already filled in. A few things still need your input:
-1. **Profile photo** — the Driver License card currently shows a styled "Add Your Photo" placeholder (no external image service, so it never shows a broken-image icon). To add your real photo, in `index.html` replace the `<div class="license-photo license-photo-placeholder">...</div>` block with `<img src="assets/profile.jpg" alt="Vansh Poonacha" class="license-photo" />` (upload your photo to an `assets/` folder in the repo first).
-2. **Skill levels** — each gauge has a `data-level="XX"` attribute (0–100) in `index.html` — adjust to match your actual proficiency.
-3. **Projects** — as you finish each internship task (To-Do app, API project, UI clone), update its Pit Stop card: replace the `<div class="pit-img pit-img-placeholder">...</div>` block with `<img src="assets/todo-screenshot.png" class="pit-img" alt="..." />` (same pattern for each project), set `href="#"` links to your real hosted demo + GitHub repo, and change the "IN PROGRESS" badge to "COMPLETED".
-4. **Contact form** — the form posts to Formspree (`action="https://formspree.io/f/your-form-id"`). Sign up free at [formspree.io](https://formspree.io), create a form, and paste your endpoint ID in. Or remove the form and just keep the social icon links.
-5. **Social links** — update the email/GitHub/LinkedIn/Twitter URLs in the Contact section (currently placeholders).
-6. **Resume button** — link it to your actual resume PDF (upload it to the repo, e.g. `assets/resume.pdf`).
 
 ## 🚀 Deploy on GitHub Pages
 

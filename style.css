@@ -1,0 +1,719 @@
+/* ==========================================================
+   TOKENS
+   ========================================================== */
+:root {
+  --racing-red: #E10600;
+  --racing-red-dark: #A30400;
+  --carbon: #0B0C0E;
+  --carbon-2: #17181C;
+  --asphalt: #1E2024;
+  --amber: #FFB800;
+  --silver: #B8BCC2;
+  --off-white: #F3F2EE;
+  --font-display: 'Titillium Web', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-display);
+  color: var(--asphalt);
+  background: var(--off-white);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 700; }
+
+.accent { color: var(--racing-red); }
+
+/* ==========================================================
+   STARTING LIGHTS INTRO
+   ========================================================== */
+.lights-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: var(--carbon);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.lights-intro.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.lights-rig {
+  display: flex;
+  gap: 18px;
+  background: var(--carbon-2);
+  padding: 18px 26px;
+  border-radius: 10px;
+  border: 2px solid #2a2c31;
+}
+
+.light-cell {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #2a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.light-cell .bulb {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #400;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.light-cell.on .bulb {
+  background: var(--racing-red);
+  box-shadow: 0 0 22px 6px rgba(225, 6, 0, 0.85);
+}
+
+.lights-caption {
+  font-family: var(--font-mono);
+  color: var(--silver);
+  letter-spacing: 3px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lights-caption.show { opacity: 1; }
+
+.skip-btn {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  background: transparent;
+  border: 1px solid #3a3c42;
+  color: var(--silver);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.skip-btn:hover { border-color: var(--racing-red); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lights-intro { display: none; }
+}
+
+/* ==========================================================
+   NAVBAR
+   ========================================================== */
+.navbar-custom {
+  background-color: rgba(11, 12, 14, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--racing-red);
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-badge {
+  background: var(--racing-red);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.brand-text {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+}
+
+.navbar-custom .nav-link {
+  color: var(--silver);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-left: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.nav-num {
+  font-family: var(--font-mono);
+  color: var(--racing-red);
+  font-size: 0.7rem;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active {
+  color: #fff;
+}
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, #1a1c20 0%, var(--carbon) 65%);
+  color: #fff;
+  padding-top: 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.speed-lines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    100deg,
+    transparent 0px,
+    transparent 60px,
+    rgba(225, 6, 0, 0.05) 62px,
+    rgba(225, 6, 0, 0.05) 64px,
+    transparent 66px,
+    transparent 140px
+  );
+  animation: streak 6s linear infinite;
+}
+
+@keyframes streak {
+  0% { background-position: 0 0; }
+  100% { background-position: -600px 0; }
+}
+
+.checker-strip {
+  height: 14px;
+  width: 100%;
+  background-image: conic-gradient(#fff 90deg, #17181c 90deg 180deg, #fff 180deg 270deg, #17181c 270deg);
+  background-size: 24px 24px;
+}
+
+.checker-strip.top { position: absolute; top: 0; left: 0; }
+.checker-strip.bottom { position: absolute; bottom: 0; left: 0; }
+.checker-strip.footer-strip { position: relative; margin-bottom: 20px; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  color: var(--amber);
+  letter-spacing: 3px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eyebrow .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--racing-red);
+  box-shadow: 0 0 8px 2px rgba(225, 6, 0, 0.8);
+}
+
+.hero-name {
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.95;
+  letter-spacing: -1px;
+  margin: 1rem 0;
+}
+
+.hero-lead {
+  color: var(--silver);
+  font-size: 1.15rem;
+  max-width: 620px;
+  margin: 0 auto 2rem;
+}
+
+.hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* ==========================================================
+   RACE BUTTONS
+   ========================================================== */
+.btn-race {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  padding: 12px 28px;
+  border-radius: 3px;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-race:hover { transform: translateY(-2px); }
+
+.btn-race-primary {
+  background: var(--racing-red);
+  color: #fff;
+  border: none;
+}
+
+.btn-race-primary:hover {
+  background: var(--racing-red-dark);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(225, 6, 0, 0.4);
+}
+
+.btn-race-outline {
+  background: transparent;
+  border: 2px solid currentColor;
+  color: inherit;
+}
+
+.hero .btn-race-outline { color: #fff; }
+.hero .btn-race-outline:hover { background: #fff; color: var(--carbon); }
+
+.about-copy ~ .btn-race-outline,
+.license-card ~ .btn-race-outline,
+#about .btn-race-outline {
+  color: var(--racing-red);
+  border-color: var(--racing-red);
+}
+
+#about .btn-race-outline:hover { background: var(--racing-red); color: #fff; }
+
+.pit-links .btn-race-outline {
+  color: var(--racing-red);
+  border-color: var(--racing-red);
+  padding: 8px 16px;
+}
+
+.pit-links .btn-race-outline:hover { background: var(--racing-red); color: #fff; }
+
+.btn-race-ghost {
+  background: transparent;
+  border: 2px solid var(--asphalt);
+  color: var(--asphalt);
+  padding: 8px 16px;
+}
+
+.btn-race-ghost:hover { background: var(--asphalt); color: #fff; }
+
+/* ==========================================================
+   SECTIONS
+   ========================================================== */
+.section-padding { padding: 100px 0 90px; }
+
+.section-eyebrow {
+  font-family: var(--font-mono);
+  color: var(--racing-red);
+  letter-spacing: 3px;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-eyebrow.light { color: var(--amber); }
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 900;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.section-title.light { color: #fff; }
+
+.section-sub {
+  color: #6b6f76;
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+.section-sub.light { color: var(--silver); margin-left: auto; margin-right: auto; }
+
+.dash-section {
+  background: var(--carbon);
+  color: #fff;
+  position: relative;
+}
+
+/* ==========================================================
+   DRIVER LICENSE CARD
+   ========================================================== */
+.license-card {
+  background: linear-gradient(155deg, var(--carbon-2) 0%, var(--carbon) 100%);
+  border-radius: 16px;
+  padding: 28px;
+  color: #fff;
+  height: 100%;
+  position: relative;
+  border: 1px solid #2a2c31;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.license-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  color: var(--silver);
+}
+
+.license-num {
+  background: var(--racing-red);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.license-photo {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  filter: grayscale(15%);
+}
+
+.license-photo-placeholder {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: repeating-linear-gradient(135deg, #1c1e23 0 14px, #1a1c20 14px 28px);
+  border: 1.5px dashed #3a3c42;
+}
+
+.license-photo-placeholder i {
+  font-size: 3rem;
+  color: var(--racing-red);
+}
+
+.license-photo-placeholder span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  color: var(--silver);
+  text-transform: uppercase;
+}
+
+.license-name {
+  font-style: italic;
+  font-weight: 900;
+  margin-bottom: 2px;
+}
+
+.license-role {
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.license-strip {
+  height: 8px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(45deg, var(--racing-red) 0 10px, #fff 10px 20px);
+}
+
+/* ==========================================================
+   SPEC SHEET
+   ========================================================== */
+.spec-sheet {
+  border: 1px solid #e2e0d8;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.75rem;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e2e0d8;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.spec-row:last-child { border-bottom: none; }
+.spec-row:nth-child(even) { background: #faf9f5; }
+
+.spec-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8a8d91;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-label i { color: var(--racing-red); }
+
+.spec-value { font-weight: 600; }
+
+.about-copy { color: #52565c; font-size: 1.03rem; margin-bottom: 1.5rem; }
+
+/* ==========================================================
+   GAUGES / SKILLS
+   ========================================================== */
+.gauge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 40px;
+}
+
+@media (min-width: 768px) {
+  .gauge-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.gauge-head {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.gauge-pct { color: var(--amber); }
+
+.gauge-track {
+  height: 10px;
+  border-radius: 5px;
+  background: #26282d;
+  overflow: hidden;
+  position: relative;
+}
+
+.gauge-track::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(90deg, rgba(0,0,0,0.25) 0 2px, transparent 2px 10px);
+}
+
+.gauge-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #2ecc71 0%, var(--amber) 65%, var(--racing-red) 100%);
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================
+   PROJECTS / PIT CARDS
+   ========================================================== */
+.pit-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #e5e3db;
+  height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pit-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 34px rgba(0,0,0,0.12);
+}
+
+.pit-number {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  background: var(--carbon);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 2px solid var(--racing-red);
+}
+
+.pit-status {
+  position: absolute;
+  top: 18px;
+  right: 14px;
+  z-index: 2;
+  background: var(--amber);
+  color: var(--carbon);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.pit-img { width: 100%; height: 190px; object-fit: cover; }
+
+.pit-img-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: repeating-linear-gradient(135deg, var(--carbon-2) 0 14px, var(--carbon) 14px 28px);
+  border-bottom: 1px solid #e5e3db;
+}
+
+.pit-img-placeholder i {
+  font-size: 2.2rem;
+  color: var(--racing-red);
+}
+
+.pit-img-placeholder span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  color: var(--silver);
+  text-transform: uppercase;
+}
+
+.pit-body { padding: 22px; }
+
+.pit-title { font-weight: 700; margin-bottom: 2px; }
+
+.pit-sub {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--racing-red);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.pit-desc { color: #6b6f76; font-size: 0.92rem; margin-bottom: 14px; }
+
+.pit-tags { margin-bottom: 16px; }
+
+.tag {
+  display: inline-block;
+  background: #f2f1eb;
+  color: var(--asphalt);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 4px 9px;
+  border-radius: 4px;
+  margin: 0 6px 6px 0;
+}
+
+.pit-links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ==========================================================
+   CONTACT / RADIO
+   ========================================================== */
+.radio-form label {
+  color: var(--silver);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.race-input {
+  background: var(--carbon-2);
+  border: 1px solid #33353b;
+  color: #fff;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.race-input:focus {
+  background: var(--carbon-2);
+  color: #fff;
+  border-color: var(--racing-red);
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.25);
+}
+
+.race-input::placeholder { color: #6b6f76; }
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin: 0 6px;
+  border-radius: 50%;
+  background: var(--carbon-2);
+  border: 1px solid #33353b;
+  color: var(--amber);
+  font-size: 1.2rem;
+  transition: all 0.25s ease;
+}
+
+.social-icon:hover {
+  background: var(--racing-red);
+  border-color: var(--racing-red);
+  color: #fff;
+  transform: translateY(-4px);
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+footer {
+  background: var(--carbon);
+  color: var(--silver);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background: var(--carbon-2);
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .section-padding { padding: 70px 0 60px; }
+  .gauge-grid { grid-template-columns: 1fr; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .speed-lines { animation: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
